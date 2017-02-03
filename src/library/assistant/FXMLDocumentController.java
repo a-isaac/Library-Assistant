@@ -33,7 +33,7 @@ public class FXMLDocumentController implements Initializable {
     private JFXButton saveButton;
     @FXML
     private JFXButton cancelButton;
-    // HELLO I AM TESTING
+    
     /**
      * Initializes the controller class.
      */
@@ -53,3 +53,5 @@ public class FXMLDocumentController implements Initializable {
     }
     
 }
+
+// Im still testing here okay.
