@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -51,7 +52,7 @@ public final class DatabaseHandler {
             DatabaseMetaData dbm = connection.getMetaData();
             ResultSet tables = dbm.getTables(null, null, TABLE_NAME.toUpperCase(), null);
             if (tables.next()) {
-                System.out.println("Table " + TABLE_NAME + "already exists.");
+                System.out.println("Table " + TABLE_NAME + " already exists. Good to go.");
             } else {
                 statement.execute("CREATE TABLE " + TABLE_NAME + "("
                         + "     id varchar(200) primary key,\n" // varchar is string data type, and takes 200 char (in this case)
@@ -64,7 +65,37 @@ public final class DatabaseHandler {
         } catch (SQLException e) {
             System.err.println(e.getMessage() + " --- Please set up database.");
         } finally {
-        }
+        }        
+    }
+    
+    // Used for executing a Query statement, which always returns some kind of Data.
+    // Example, if you want the data.
+    public ResultSet execQuery(String query) {
+       ResultSet result;
+       try {
+           statement = connection.createStatement();
+           result = statement.executeQuery(query);
+       } catch (SQLException ex) {
+           System.out.println("Exception at execQuery:dataHandler"+ ex.getLocalizedMessage());
+           return null;
+       } finally {           
+       }
+       return result;
+    }
+   
+    // Doing some action such as inserting or creating table.
+    // Does not return any values
+    public boolean execAction (String qu) {
+       try {
+           statement = connection.createStatement();
+           statement.execute(qu);
+           return true;
+       } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null,"ErrorL" + ex.getMessage(), "Error Occured", JOptionPane.ERROR_MESSAGE);
+           System.out.println("Exception at execQuery:dataHandler"+ ex.getLocalizedMessage());
+           return false;
+       } finally {
+       }
     }
     
 }
